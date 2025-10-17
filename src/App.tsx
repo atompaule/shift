@@ -1,14 +1,13 @@
 import "./App.css"
 
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import Layout from "@/layouts/Layout"
+import LogPage from "@/pages/LogPage"
 
-function App() {
+const App = () => {
   return (
-    <>
-      <Textarea placeholder="Type your message here." />
-      <Button variant="outline">Button</Button>
-    </>
+    <Layout>
+      <LogPage />
+    </Layout>
   )
 }
 
