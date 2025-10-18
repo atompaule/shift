@@ -1,5 +1,7 @@
-import { Link } from "react-router"
+import { signOut } from "firebase/auth"
+import { Link, useNavigate } from "react-router-dom"
 
+import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -7,9 +9,17 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { auth } from "@/lib/firebase"
 import { cn } from "@/lib/utils"
 
 const NavBar = () => {
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await signOut(auth)
+    navigate("/login", { replace: true })
+  }
+
   return (
     <NavigationMenu className="px-4">
       <NavigationMenuList>
@@ -33,7 +43,9 @@ const NavBar = () => {
             asChild
             className={cn(navigationMenuTriggerStyle(), "text-rose-400")}
           >
-            <Link to="/logout">Logout</Link>
+            <Button className="cursor-pointer" onClick={handleLogout}>
+              Logout
+            </Button>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

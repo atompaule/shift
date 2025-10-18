@@ -1,9 +1,14 @@
 import { useState } from "react"
 
 import TopicCloud from "@/components/TopicCloud"
-import { Button } from "@/components/ui/button"
+import { MicrophoneIcon } from "@/components/ui/icons/heroicons-microphone"
 import { ArrowUpIcon } from "@/components/ui/icons/lucide-arrow-up"
-import { Textarea } from "@/components/ui/textarea"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
 
 const LogPage = () => {
   const [message, setMessage] = useState("")
@@ -13,8 +18,13 @@ const LogPage = () => {
     setMessage(event.target.value)
   }
 
-  const onSubmit = () => {
+  const sendMessage = () => {
     console.log(message)
+    setMessage("")
+  }
+
+  const recordMessage = () => {
+    console.log("recordMessage")
   }
 
   return (
@@ -25,21 +35,35 @@ const LogPage = () => {
         </div>
       </div>
       <div className="flex flex-row justify-center absolute bottom-0 left-0 right-0">
-        <div className="flex flex-row gap-3 w-[600px] p-4">
-          <Textarea
-            placeholder="Type your message here."
-            onChange={onMessageChange}
-          />
-          <div className="flex flex-col justify-end">
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="Submit"
-              onClick={onSubmit}
-            >
-              <ArrowUpIcon />
-            </Button>
-          </div>
+        <div className="w-[600px] pb-4">
+          <InputGroup>
+            <InputGroupTextarea
+              placeholder="Type your message here."
+              value={message}
+              onChange={onMessageChange}
+            />
+            <InputGroupAddon align="block-end">
+              <InputGroupButton
+                variant="default"
+                className="rounded-full bg-blue-500 ml-auto"
+                size="icon-xs"
+                onClick={recordMessage}
+              >
+                <MicrophoneIcon />
+                <span className="sr-only">Record</span>
+              </InputGroupButton>
+              <InputGroupButton
+                variant="default"
+                className="rounded-full"
+                size="icon-xs"
+                disabled={message === ""}
+                onClick={sendMessage}
+              >
+                <ArrowUpIcon />
+                <span className="sr-only">Send</span>
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
         </div>
       </div>
     </div>
