@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils"
 
 const NavBar = () => {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="px-4">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
