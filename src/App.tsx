@@ -6,7 +6,8 @@ import Layout from "@/layouts/Layout"
 import { useAuth } from "@/lib/auth"
 import Login from "@/pages/auth/Login"
 import Signup from "@/pages/auth/Signup"
-import LogPage from "@/pages/LogPage"
+import LogBookPage from "@/pages/LogBookPage"
+import TopicCloudPage from "@/pages/TopicCloudPage"
 
 const App = () => {
   const { user, loading } = useAuth()
@@ -29,7 +30,8 @@ const App = () => {
     <Layout>
       <Routes>
         <Route path="/" element={<Navigate to="/logbook" replace />} />
-        <Route path="/logbook" element={<LogPage />} />
+        <Route path="/logbook" element={<LogBookPage />} />
+        <Route path="/topic-cloud" element={<TopicCloudPage />} />
         <Route path="*" element={<Navigate to="/logbook" replace />} />
       </Routes>
     </Layout>
