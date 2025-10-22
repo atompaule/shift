@@ -20,8 +20,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const updateToken = async (u: User | null) => {
+    if (u) {
+      u.getIdToken().then((token) => {
+        localStorage.setItem("token", token)
+      })
+    } else {
+      localStorage.removeItem("token")
+    }
+  }
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
+      updateToken(u)
       setUser(u)
       setLoading(false)
     })

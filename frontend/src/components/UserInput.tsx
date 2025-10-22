@@ -8,6 +8,7 @@ import {
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group"
+import { backendClient } from "@/lib/api/backend"
 
 const UserInput = () => {
   const [message, setMessage] = useState("")
@@ -16,8 +17,10 @@ const UserInput = () => {
     setMessage(event.target.value)
   }
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     console.log(message)
+    await backendClient.createLogEntry(message)
+    setMessage("")
   }
 
   const recordMessage = () => {
