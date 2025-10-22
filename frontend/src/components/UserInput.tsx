@@ -8,23 +8,23 @@ import {
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group"
-import { backendClient } from "@/lib/api/backend"
 
-const UserInput = () => {
+const UserInput = ({
+  onSend,
+  onRecord,
+}: {
+  onSend: (message: string) => void
+  onRecord: () => void
+}) => {
   const [message, setMessage] = useState("")
 
   const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value)
   }
 
-  const sendMessage = async () => {
-    console.log(message)
-    await backendClient.createLogEntry(message)
+  const onSendClick = () => {
+    onSend(message)
     setMessage("")
-  }
-
-  const recordMessage = () => {
-    console.log("recordMessage")
   }
 
   return (
@@ -41,7 +41,7 @@ const UserInput = () => {
               variant="default"
               className="rounded-full bg-blue-500 ml-auto"
               size="icon-xs"
-              onClick={recordMessage}
+              onClick={onRecord}
             >
               <MicrophoneIcon />
               <span className="sr-only">Record</span>
@@ -51,7 +51,7 @@ const UserInput = () => {
               className="rounded-full"
               size="icon-xs"
               disabled={message === ""}
-              onClick={sendMessage}
+              onClick={onSendClick}
             >
               <ArrowUpIcon />
               <span className="sr-only">Send</span>
