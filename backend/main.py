@@ -1,12 +1,9 @@
-from datetime import datetime
-
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from firebase import auth, db
+from firebase import auth, db, firestore
 from logger import logger
 from models import LogEntry
-from pydantic import UUID4
 
 app = FastAPI()
 security = HTTPBearer()
@@ -35,7 +32,11 @@ def _get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securi
 async def get_log_entries(user_id: str = Depends(_get_current_user)):
     print(f"User ID: {user_id}")
     log_entries = (
-        db.collection("users").document(user_id).collection("log_entries").stream()
+        db.collection("users")
+        .document(user_id)
+        .collection("log_entries")
+        .order_by("created_at", direction=firestore.Query.DESCENDING)
+        .stream()
     )
     return [log_entry.to_dict() for log_entry in log_entries]
 
