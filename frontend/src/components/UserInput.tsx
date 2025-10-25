@@ -9,19 +9,22 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group"
 
-const UserInput = () => {
+const UserInput = ({
+  onSend,
+  onRecord,
+}: {
+  onSend: (message: string) => void
+  onRecord: () => void
+}) => {
   const [message, setMessage] = useState("")
 
   const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value)
   }
 
-  const sendMessage = () => {
-    console.log(message)
-  }
-
-  const recordMessage = () => {
-    console.log("recordMessage")
+  const onSendClick = () => {
+    onSend(message)
+    setMessage("")
   }
 
   return (
@@ -38,7 +41,7 @@ const UserInput = () => {
               variant="default"
               className="rounded-full bg-blue-500 ml-auto"
               size="icon-xs"
-              onClick={recordMessage}
+              onClick={onRecord}
             >
               <MicrophoneIcon />
               <span className="sr-only">Record</span>
@@ -48,7 +51,7 @@ const UserInput = () => {
               className="rounded-full"
               size="icon-xs"
               disabled={message === ""}
-              onClick={sendMessage}
+              onClick={onSendClick}
             >
               <ArrowUpIcon />
               <span className="sr-only">Send</span>
