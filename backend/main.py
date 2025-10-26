@@ -1,3 +1,6 @@
+import os
+
+from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -5,12 +8,16 @@ from firebase import auth, db, firestore
 from logger import logger
 from models import LogEntry
 
+load_dotenv()
+
 app = FastAPI()
 security = HTTPBearer()
 
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[frontend_url],
     allow_credentials=True,
     allow_methods=["POST", "GET"],
     allow_headers=["Content-Type", "Authorization"],
