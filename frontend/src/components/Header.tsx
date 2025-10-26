@@ -3,7 +3,7 @@ import { AppIcon } from "@/components/ui/icons/app-icon"
 
 const Header = () => {
   return (
-    <div className="flex flex-row justify-between items-center">
+    <div className="flex flex-row justify-between items-center h-[70px] px-4">
       <AppIcon />
       <NavBar />
     </div>

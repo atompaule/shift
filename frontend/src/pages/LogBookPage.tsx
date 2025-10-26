@@ -26,9 +26,9 @@ const LogBookPage = () => {
   }, [])
 
   return (
-    <>
+    <div className="flex flex-col h-full w-full justify-between items-center">
       <Suspense fallback={<div>Loading...</div>}>
-        <div>
+        <div className="w-full max-w-[600px]">
           {logEntries.map((logEntry) => (
             <div key={logEntry.created_at!}>{logEntry.content}</div>
           ))}
@@ -36,7 +36,7 @@ const LogBookPage = () => {
       </Suspense>
 
       <UserInput onSend={sendMessage} onRecord={recordMessage} />
-    </>
+    </div>
   )
 }
 
