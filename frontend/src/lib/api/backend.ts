@@ -43,6 +43,15 @@ export class BackendClient {
       throw error
     }
   }
+
+  async deleteLogEntry(id: string): Promise<void> {
+    try {
+      await this.client.delete(`/log-entries/${id}`)
+    } catch (error) {
+      console.error("Error in deleteLogEntry request:", error)
+      throw error
+    }
+  }
 }
 
 export const backendClient = new BackendClient()
