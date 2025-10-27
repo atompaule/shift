@@ -1,5 +1,10 @@
 export function AppIcon() {
   return (
-    <img className="p-4" src="/src/assets/app-icon.png" alt="App Icon" width={70} height={70} />
+    <img
+      src="/app-icon.png"
+      alt="App Icon"
+      width={36}
+      height={36}
+    />
   )
 }

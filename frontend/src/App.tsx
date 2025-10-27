@@ -2,6 +2,7 @@ import "./App.css"
 
 import { Navigate, Route, Routes } from "react-router-dom"
 
+import { Loader } from "@/components/ui/loader"
 import Layout from "@/layouts/Layout"
 import { useAuth } from "@/lib/auth"
 import Login from "@/pages/auth/Login"
@@ -13,7 +14,7 @@ const App = () => {
   const { user, loading } = useAuth()
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loader fullscreen />
   }
 
   if (!user) {

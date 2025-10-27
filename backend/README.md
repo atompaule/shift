@@ -30,8 +30,15 @@ gcloud auth application-default login
 gcloud config set project <FIREBASE_PROJECT_ID>
 ```
 
-## Start Server
+## Start Local Server
 
 ```bash
 fastapi dev main.py
+```
+
+## Deploy to Google Cloud Run
+
+```bash
+# Deploy to Google Cloud Run
+gcloud run deploy shift-backend --source . --region europe-west3 --set-env-vars FRONTEND_URL=<Your frontend URL>
 ```

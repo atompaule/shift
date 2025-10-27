@@ -1,13 +1,14 @@
 import axios, { type AxiosInstance } from "axios"
 
-import { type LogEntry } from "./types"
+import { type LogEntry } from "@/lib/api/types"
 
 export class BackendClient {
   private client: AxiosInstance
   private baseUrl: string
 
   constructor() {
-    this.baseUrl = "http://localhost:8000"
+    this.baseUrl = import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000"
+
     this.client = axios.create({
       baseURL: this.baseUrl,
       headers: {
@@ -39,6 +40,15 @@ export class BackendClient {
       await this.client.post(`/log-entries`, { content })
     } catch (error) {
       console.error("Error in createLogEntry request:", error)
+      throw error
+    }
+  }
+
+  async deleteLogEntry(id: string): Promise<void> {
+    try {
+      await this.client.delete(`/log-entries/${id}`)
+    } catch (error) {
+      console.error("Error in deleteLogEntry request:", error)
       throw error
     }
   }

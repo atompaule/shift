@@ -49,6 +49,7 @@ dependencies:
       - googleapis-common-protos==1.71.0
       - grpcio==1.76.0
       - grpcio-status==1.76.0
+      - gunicorn==23.0.0
       - h11==0.16.0
       - h2==4.3.0
       - hpack==4.1.0
@@ -62,6 +63,7 @@ dependencies:
       - markupsafe==3.0.3
       - mdurl==0.1.2
       - msgpack==1.1.2
+      - packaging==25.0
       - proto-plus==1.26.1
       - protobuf==6.33.0
       - pyasn1==0.6.1
