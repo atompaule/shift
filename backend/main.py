@@ -45,7 +45,15 @@ async def get_log_entries(user_id: str = Depends(_get_current_user)):
         .order_by("created_at", direction=firestore.Query.DESCENDING)
         .stream()
     )
-    return [log_entry.to_dict() for log_entry in log_entries]
+
+    log_entry_list = []
+
+    for log_entry in log_entries:
+        log_entry_dict = log_entry.to_dict()
+        log_entry_dict["id"] = log_entry.id
+        log_entry_list.append(log_entry_dict)
+
+    return log_entry_list
 
 
 @app.post("/log-entries")

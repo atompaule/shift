@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useState } from "react"
 
+import LogEntryCard from "@/components/LogEntryCard"
 import UserInput from "@/components/UserInput"
 import { backendClient } from "@/lib/api/backend"
 import type { LogEntry } from "@/lib/api/types"
@@ -21,19 +22,30 @@ const LogBookPage = () => {
     setLogEntries(logEntries)
   }
 
+  const handleDelete = async (id: string) => {
+    await backendClient.deleteLogEntry(id)
+    fetchLogEntries()
+  }
+
   useEffect(() => {
     fetchLogEntries()
   }, [])
 
   return (
     <div className="flex flex-col h-full w-full justify-between items-center">
-      <Suspense fallback={<div>Loading...</div>}>
-        <div className="w-full max-w-[600px]">
-          {logEntries.map((logEntry) => (
-            <div key={logEntry.created_at!}>{logEntry.content}</div>
-          ))}
-        </div>
-      </Suspense>
+      <div className="flex-1 min-h-0 w-full max-w-[600px] overflow-y-auto [scrollbar-width:none]">
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="flex flex-col gap-2">
+            {logEntries.map((logEntry) => (
+              <LogEntryCard
+                key={logEntry.id}
+                logEntry={logEntry}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        </Suspense>
+      </div>
 
       <UserInput onSend={sendMessage} onRecord={recordMessage} />
     </div>
