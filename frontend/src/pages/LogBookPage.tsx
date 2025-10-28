@@ -7,6 +7,9 @@ import type { LogEntry } from "@/lib/api/types"
 
 const LogBookPage = () => {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([])
+  const [activeContextMenuId, setActiveContextMenuId] = useState<string | null>(
+    null
+  )
 
   const sendMessage = async (message: string) => {
     await backendClient.createLogEntry(message)
@@ -27,6 +30,10 @@ const LogBookPage = () => {
     fetchLogEntries()
   }
 
+  const handleContextMenuOpenChange = (id: string) => (open: boolean) => {
+    setActiveContextMenuId((prev) => (open ? id : prev === id ? null : prev))
+  }
+
   useEffect(() => {
     fetchLogEntries()
   }, [])
@@ -41,6 +48,13 @@ const LogBookPage = () => {
                 key={logEntry.id}
                 logEntry={logEntry}
                 onDelete={handleDelete}
+                isDimmed={
+                  activeContextMenuId !== null &&
+                  activeContextMenuId !== logEntry.id
+                }
+                onContextMenuOpenChange={handleContextMenuOpenChange(
+                  logEntry.id
+                )}
               />
             ))}
           </div>
