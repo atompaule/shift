@@ -42,7 +42,8 @@ const LogBookPage = () => {
     <div className="flex flex-col h-full w-full justify-between items-center">
       <div className="flex-1 min-h-0 w-full max-w-[600px] overflow-y-auto [scrollbar-width:none]">
         <Suspense fallback={<div>Loading...</div>}>
-          <div className="flex flex-col gap-2">
+          <div className="h-[56px]" />
+          <div className="flex flex-col gap-2 pb-4">
             {logEntries.map((logEntry) => (
               <LogEntryCard
                 key={logEntry.id}
