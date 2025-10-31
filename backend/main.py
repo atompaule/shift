@@ -5,6 +5,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from firebase import auth, db, firestore
+from langfuse import get_client
 from logger import logger
 from models import LogEntry
 
@@ -12,6 +13,8 @@ load_dotenv()
 
 app = FastAPI()
 security = HTTPBearer()
+
+langfuse = get_client()
 
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
