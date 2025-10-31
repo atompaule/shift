@@ -29,7 +29,7 @@ const LogEntryCard = ({
       <ContextMenuTrigger asChild>
         <div
           className={cn(
-            "rounded-lg bg-card text-card-foreground transition-colors hover:bg-accent/20",
+            "rounded-lg bg-card text-card-foreground transition-colors hover:bg-accent/20 select-none",
             isDimmed && "text-muted-foreground/50"
           )}
         >

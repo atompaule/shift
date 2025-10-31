@@ -6,12 +6,12 @@ BACKEND_DIR := $(ROOT)/backend
 
 FRONTEND_URL ?= https://shift-2143b.web.app
 
-.PHONY: run-frontend-local run-backend-local deploy-frontend-prod deploy-backend-prod
+.PHONY: frontend-dev backend-dev deploy-frontend-prod deploy-backend-prod
 
-run-frontend-local:
+frontend-dev:
 	cd $(FRONTEND_DIR) && pnpm dev
 
-run-backend-local:
+backend-dev:
 	cd $(BACKEND_DIR) && fastapi dev main.py
 
 deploy-frontend-prod:
