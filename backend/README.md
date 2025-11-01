@@ -11,6 +11,9 @@ conda activate shift
 
 # If you update the environment.yml, also update the .yml file:
 conda env export --no-builds > environment.yml
+
+# Then, update the requirements.txt file:
+pip freeze > requirements.txt
 ```
 
 ## Firebase Setup
