@@ -8,6 +8,7 @@ from firebase import auth, db, firestore
 from langfuse import get_client
 from logger import logger
 from models import LogEntry
+from openai import OpenAI
 
 load_dotenv()
 
@@ -15,6 +16,8 @@ app = FastAPI()
 security = HTTPBearer()
 
 langfuse = get_client()
+
+openai_client = OpenAI()
 
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
