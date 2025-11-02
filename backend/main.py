@@ -27,11 +27,12 @@ langfuse = get_client()
 
 openai_client = OpenAI()
 
-frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+OPENAI_HELPER_MODEL = os.getenv("OPENAI_HELPER_MODEL", "gpt-5-mini")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_url],
+    allow_origins=[FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["POST", "GET", "DELETE"],
     allow_headers=["Content-Type", "Authorization"],
@@ -109,7 +110,7 @@ async def create_log_entry(
         logger.info("Thread detection prompt: %s", compiled_prompt)
 
         response_text = openai_client.responses.create(
-            model="gpt-5-nano",
+            model=OPENAI_HELPER_MODEL,
             input=compiled_prompt,
         ).output_text
         logger.info("Thread detection response: %s", response_text)
