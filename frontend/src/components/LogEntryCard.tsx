@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 type LogEntryCardProps = {
   logEntry: LogEntry
   onDelete?: (id: string) => void
+  color?: string
   isDimmed?: boolean
   onContextMenuOpenChange?: (open: boolean) => void
 }
@@ -17,6 +18,7 @@ type LogEntryCardProps = {
 const LogEntryCard = ({
   logEntry,
   onDelete,
+  color,
   isDimmed = false,
   onContextMenuOpenChange,
 }: LogEntryCardProps) => {
@@ -32,6 +34,7 @@ const LogEntryCard = ({
             "rounded-lg bg-card text-card-foreground transition-colors hover:bg-accent/20 select-none",
             isDimmed && "text-muted-foreground/50"
           )}
+          style={color ? { color } : undefined}
         >
           {logEntry.content}
         </div>
