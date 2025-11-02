@@ -128,19 +128,31 @@ async def delete_log_entry(
     user_id: str = Depends(_get_current_user),
 ) -> None:
     try:
-        log_entry_ref = (
-            db.collection("users")
-            .document(user_id)
-            .collection("log_entries")
-            .document(log_entry_id)
+        log_entries_ref = (
+            db.collection("users").document(user_id).collection("log_entries")
         )
+        log_entry_ref = log_entries_ref.document(log_entry_id)
 
         log_entry_snapshot = log_entry_ref.get()
 
         if not log_entry_snapshot.exists:
             raise HTTPException(status_code=404, detail="Log entry not found")
 
+        thread_id = log_entry_snapshot.to_dict().get("thread_id")
         log_entry_ref.delete()
+
+        if thread_id:
+            remaining_entries = (
+                log_entries_ref.where("thread_id", "==", thread_id).limit(1).get()
+            )
+
+            if not remaining_entries:
+                (
+                    db.collection("users")
+                    .document(user_id)
+                    .collection("threads")
+                    .document(thread_id)
+                ).delete()
     except Exception as e:
         logger.error(f"Error deleting log entry: {e}")
         raise HTTPException(status_code=500, detail="Failed to delete log entry") from e
