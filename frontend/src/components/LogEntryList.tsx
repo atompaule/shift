@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react"
 
+import { Skeleton } from "@/components/ui/skeleton"
 import type { LogEntry } from "@/lib/api/types"
 
 import LogEntryCard from "./LogEntryCard"
@@ -19,13 +20,19 @@ const seededHue = (seed: string) => {
 const threadIdToColor = (threadId: string) =>
   `hsl(${seededHue(threadId)}, 65%, 55%)`
 
+type LogEntryListProps = {
+  logEntries: LogEntry[]
+  handleDelete: (id: string) => void
+  isLoading?: boolean
+  isCreating?: boolean
+}
+
 const LogEntryList = ({
   logEntries,
   handleDelete,
-}: {
-  logEntries: LogEntry[]
-  handleDelete: (id: string) => void
-}) => {
+  isLoading = false,
+  isCreating = false,
+}: LogEntryListProps) => {
   const [activeContextMenuId, setActiveContextMenuId] = useState<string | null>(
     null
   )
@@ -54,6 +61,14 @@ const LogEntryList = ({
 
   return (
     <div className="flex flex-col gap-2 pb-4">
+      {isCreating && <Skeleton className="h-5 w-full" />}
+      {isLoading &&
+        Array.from({ length: 5 }).map((_, index) => (
+          <Skeleton
+            key={`log-entry-skeleton-${index}`}
+            className="h-5 w-full"
+          />
+        ))}
       {logEntries.map((logEntry) => {
         const threadId = logEntry.thread_id ?? "none"
         const color = colorsByThreadId.get(threadId)
