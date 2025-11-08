@@ -61,13 +61,13 @@ def _resolve_thread(threads_ref, thread_id: str | None) -> str:
 
 
 def _extract_thread_id(response_text: str) -> str | None:
-    if "None" in response_text:
+    prefix = "Thread ID:"
+    if prefix not in response_text:
         return None
 
-    cleaned_response = response_text.strip()
-    prefix = "Thread ID:"
+    candidate = response_text.split(prefix)[1].strip()
 
-    if cleaned_response.startswith(prefix):
-        return cleaned_response[len(prefix) :].strip()
+    if "None" not in candidate:
+        return candidate
 
     return None
