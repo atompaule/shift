@@ -67,7 +67,7 @@ def _extract_thread_id(response_text: str) -> str | None:
 
     candidate = response_text.split(prefix)[1].strip()
 
-    if "None" not in candidate:
-        return candidate
+    if "None" in candidate:
+        return None
 
-    return None
+    return candidate
