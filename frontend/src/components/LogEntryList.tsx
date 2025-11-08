@@ -5,20 +5,28 @@ import type { LogEntry } from "@/lib/api/types"
 
 import LogEntryCard from "./LogEntryCard"
 
-const seededHue = (seed: string) => {
-  let hash = 0
-
-  for (let index = 0; index < seed.length; index += 1) {
-    hash = (hash << 5) - hash + seed.charCodeAt(index)
-    hash |= 0
-  }
-
-  const random = Math.abs(Math.sin(hash) * 10000)
-  return Math.floor(random % 360)
-}
-
-const threadIdToColor = (threadId: string) =>
-  `hsl(${seededHue(threadId)}, 65%, 55%)`
+const COLOR_PALETTE = [
+  "#3B82F6", // Blue
+  "#8B5CF6", // Purple
+  "#EC4899", // Pink
+  "#EF4444", // Red
+  "#F59E0B", // Amber
+  "#10B981", // Emerald
+  "#06B6D4", // Cyan
+  "#6366F1", // Indigo
+  "#F97316", // Orange
+  "#84CC16", // Lime
+  "#14B8A6", // Teal
+  "#A855F7", // Violet
+  "#F43F5E", // Rose
+  "#22C55E", // Green
+  "#0EA5E9", // Sky
+  "#D946EF", // Fuchsia
+  "#64748B", // Slate
+  "#EAB308", // Yellow
+  "#FB923C", // Orange (lighter)
+  "#34D399", // Emerald (lighter)
+]
 
 type LogEntryListProps = {
   logEntries: LogEntry[]
@@ -44,17 +52,22 @@ const LogEntryList = ({
   const colorsByThreadId = useMemo(() => {
     const map = new Map<string, string>()
 
-    logEntries.forEach((logEntry) => {
-      const threadId = logEntry.thread_id ?? "none"
+    const uniqueThreadIds = Array.from(
+      new Set(
+        logEntries
+          .map((logEntry) => logEntry.thread_id ?? "none")
+          .filter((id) => id !== "none")
+      )
+    )
 
-      if (!map.has(threadId)) {
-        if (threadId === "none") {
-          map.set(threadId, "")
-        } else {
-          map.set(threadId, threadIdToColor(threadId))
-        }
-      }
+    uniqueThreadIds.sort()
+
+    uniqueThreadIds.forEach((threadId, index) => {
+      const colorIndex = index % COLOR_PALETTE.length
+      map.set(threadId, COLOR_PALETTE[colorIndex])
     })
+
+    map.set("none", "")
 
     return map
   }, [logEntries])
