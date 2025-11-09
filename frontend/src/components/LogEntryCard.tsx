@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react"
+
 import {
   ContextMenu,
   ContextMenuContent,
@@ -10,6 +12,7 @@ import { cn } from "@/lib/utils"
 type LogEntryCardProps = {
   logEntry: LogEntry
   onDelete?: (id: string) => void
+  color?: string
   isDimmed?: boolean
   onContextMenuOpenChange?: (open: boolean) => void
 }
@@ -17,6 +20,7 @@ type LogEntryCardProps = {
 const LogEntryCard = ({
   logEntry,
   onDelete,
+  color,
   isDimmed = false,
   onContextMenuOpenChange,
 }: LogEntryCardProps) => {
@@ -24,14 +28,23 @@ const LogEntryCard = ({
     onDelete?.(logEntry.id)
   }
 
+  const dynamicStyle: CSSProperties = {
+    borderLeftColor: color ?? "transparent",
+    borderLeftStyle: color ? "solid" : undefined,
+    borderLeftWidth: "2px",
+    borderRadius: "0px",
+    opacity: isDimmed ? 0.2 : 1,
+    transition: "opacity 200ms ease",
+  }
+
   return (
     <ContextMenu onOpenChange={onContextMenuOpenChange}>
       <ContextMenuTrigger asChild>
         <div
           className={cn(
-            "rounded-lg bg-card text-card-foreground transition-colors hover:bg-accent/20 select-none",
-            isDimmed && "text-muted-foreground/50"
+            "rounded-lg bg-card text-card-foreground transition-colors hover:bg-accent/20 px-2 select-none"
           )}
+          style={dynamicStyle}
         >
           {logEntry.content}
         </div>

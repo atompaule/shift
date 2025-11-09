@@ -4,12 +4,12 @@ ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 FRONTEND_DIR := $(ROOT)/frontend
 BACKEND_DIR := $(ROOT)/backend
 
-.PHONY: frontend-dev backend-dev deploy-frontend-prod deploy-backend-prod update-requirements
+.PHONY: frontend backend deploy-frontend-prod deploy-backend-prod update-requirements
 
-frontend-dev:
+frontend:
 	cd $(FRONTEND_DIR) && pnpm dev
 
-backend-dev:
+backend:
 	cd $(BACKEND_DIR) && fastapi dev main.py
 
 deploy-frontend-prod:
